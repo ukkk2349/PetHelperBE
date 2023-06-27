@@ -1,0 +1,40 @@
+using PetHelper.BL.Implements;
+using PetHelper.BL.Interface;
+using PetHelper.Core.Interfaces;
+using PetHelper.Core.Repository;
+using PetHelper.Model;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IBaseBL, BaseBL>();
+builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddScoped<IBaseService, BaseService>();
+
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
