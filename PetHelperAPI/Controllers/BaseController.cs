@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PetHelper.BL.Exceptions;
 using PetHelper.BL.Interface;
 using PetHelper.Model;
+using PetHelper.Model.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ObjectiveC;
 
 namespace PetHelper.API.Controllers
 {
@@ -20,16 +24,77 @@ namespace PetHelper.API.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<ServiceResponse> GetAll()
         {
+            var result = new ServiceResponse();
             try
             {
-                var assets = await _bl.GetAll(_modelType);
-                return Ok(assets);
+                result.Data = await _bl.GetAll(_modelType);
+                result.Success = true;
+
+                return result;
             }
             catch (Exception ex)
             {
-                return HandleException(ex);
+                result.Data = ex;
+                result.Success = false;
+                return result;
+            }
+        }
+
+        [HttpGet("getByID/{id}")]
+        public async Task<ServiceResponse> GetByID(int id)
+        {
+            var res = new ServiceResponse();
+            try
+            {
+                res.Data = await _bl.GetByID(_modelType, id);
+                res.Success = true;
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.Data = ex;
+                res.Success = false;
+
+                return res;
+            }
+        }
+
+        [HttpPost("deleteByID/{id}")]
+        public async Task<ServiceResponse> DeleteByID(int id)
+        {
+            var res = new ServiceResponse();
+            try
+            {
+                res.Data = await _bl.DeleteByID(_modelType, id);
+                res.Success = true;
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.Data = ex;
+                res.Success = false;
+
+                return res;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ServiceResponse> Save([FromBody] object entity)
+        {
+            var serviceResponse = new ServiceResponse();
+            try
+            {
+                serviceResponse.Data = await _bl.Save(this._modelType, (BaseModel)JsonConvert.DeserializeObject(entity.ToString(), this._modelType));
+                serviceResponse.Success = true;
+                return serviceResponse;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Data = ex;
+                serviceResponse.Success = false;
+                return serviceResponse;
             }
         }
 
