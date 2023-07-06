@@ -5,6 +5,14 @@ using System.Data.Entity;
 using PetHelper.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using PetHelper.Model;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Net.Http.Json;
+using System.Collections.Immutable;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
+using System.Reflection;
 
 namespace PetHelper.Core.Repository
 {
@@ -54,14 +62,14 @@ namespace PetHelper.Core.Repository
             }
         }
 
-        public int Save(BaseModel entity)
+        public async Task<int> Save(Type type, object entity)
         {
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
-                var tableName = typeof(BaseModel).Name; // ten cua bang du lieu
-
+                var tableName = type.Name; // ten cua bang du lieu
+                var objectInsert = ConvertToObjectToExecute(entity);
                 var sql = $"Proc_{tableName}_Insert";
-                var res = mysqlConnection.Execute(sql: sql, param: entity, commandType: System.Data.CommandType.StoredProcedure);
+                var res = await mysqlConnection.ExecuteAsync(sql: sql, param: objectInsert, commandType: System.Data.CommandType.StoredProcedure);
                 return res;
             }
             throw new NotImplementedException();
@@ -77,13 +85,13 @@ namespace PetHelper.Core.Repository
             throw new NotImplementedException();
         }
 
-        public IEnumerable<T> QueryUsingCommandText<T>(string queryString) where T : BaseModel
+        public async Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam) where T : BaseModel
         {
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
-                var data = mysqlConnection.Query<T>(queryString);
+                var data = await mysqlConnection.QueryAsync<T>(queryString, dicParam);
 
-                return data;
+                return (List<T>)data;
             }
         }
 
@@ -102,16 +110,48 @@ namespace PetHelper.Core.Repository
             }
         }
 
-        public dynamic GetByID(Type type, int id)
+        public async Task<dynamic> GetByID(Type type, int id)
         {
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
+                var x = new Dictionary<string, object>() { { "value", "value" } };
                 var tableName = type.Name; // ten cua bang du lieu
                 var primaryKey = $"{tableName}ID";
                 var sql = $"SELECT * from {tableName} WHERE {primaryKey} = @{primaryKey}";
                 var parameter = new DynamicParameters();
                 parameter.Add($"@{primaryKey}", id);
-                var data = mysqlConnection.QueryFirstOrDefault(sql: sql, param: parameter);
+                var data = await mysqlConnection.QueryFirstOrDefaultAsync(sql: sql, param: parameter);
+
+                return data;
+            }
+        }
+
+        private DynamicParameters ConvertToObjectToExecute(dynamic obj)
+        {
+            PropertyInfo[] properties = obj.GetType().GetProperties();
+            //Dictionary<string, object> dicConvert = JsonConvert.DeserializeObject<Dictionary<string, object>>(obj.ToString());
+
+            var parameter = new DynamicParameters();
+
+            foreach (var property in properties)
+            {
+                var propertyInfo = obj.GetType().GetProperty(property.Name);
+                parameter.Add($"v_{property.Name}", propertyInfo.GetValue(obj, null));
+            }
+
+            return parameter;
+        }
+
+        public async Task<int> DeleteByID(Type type, int id)
+        {
+            using (mysqlConnection = new MySqlConnection(connectionString))
+            {
+                var tableName = type.Name; // ten cua bang du lieu
+                var primaryKey = $"{tableName}ID";
+                var sql = $"DELETE FROM {tableName} WHERE {primaryKey} = @{primaryKey}";
+                var parameter = new DynamicParameters();
+                parameter.Add($"@{primaryKey}", id);
+                var data = await mysqlConnection.ExecuteAsync(sql: sql, param: parameter);
 
                 return data;
             }

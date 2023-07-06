@@ -15,13 +15,13 @@ namespace PetHelper.Model.Models
         /// </summary>
         public string ProductNames { get; set; }
         /// <summary>
-        /// avatar sản phẩm
-        /// </summary>
-        public string ProductAvatars { get; set; }
-        /// <summary>
         /// Số lượng sản phẩm
         /// </summary>
         public string ProductQuantities { get; set; }
+        /// <summary>
+        /// List sản phẩm (json (ProductID, productName, ProductAvatar, price, quantity))
+        /// </summary>
+        public string Products { get; set; }
         /// <summary>
         /// Id người dùng đặt hàng
         /// </summary>

@@ -52,19 +52,19 @@ namespace PetHelper.Model
         /// </summary>
         public string CurrentProvinceName { get; set; }
         /// <summary>
-        /// ID đất nước sinh sống hiện tại
+        /// ID quận huyện
         /// </summary>
-        public string CurrentCountryID { get; set; }
+        public string CurrentDistrictID { get; set; }
         /// <summary>
-        /// Tên đất nước sinh sống hiện tại
+        /// Tên quận huyện
         /// </summary>
-        public string? CurrentCountryName { get; set; }
+        public string? CurrentDistrictName { get; set; }
         /// <summary>
-        /// ID quận
+        /// ID phường xã
         /// </summary>
         public string? CurrentWardID { get; set; }
         /// <summary>
-        /// Tên quận
+        /// Tên phường xã
         /// </summary>
         public string? CurrentWardName { get; set; }
         /// <summary>

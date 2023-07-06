@@ -15,6 +15,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBaseBL, BaseBL>();
 builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddScoped<IPetBL, PetBL>();
+builder.Services.AddScoped<IProductBL, ProductBL>();
+builder.Services.AddScoped<ICartBL, CartBL>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
@@ -36,5 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(otp => otp.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.Run();

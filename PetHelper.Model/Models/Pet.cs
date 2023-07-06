@@ -30,14 +30,6 @@ namespace PetHelper.Model
         /// </summary>
         public bool IsAdopted { get; set; }
         /// <summary>
-        /// Tình trạng nhận nuôi (1: chưa được nhân nuôi, 2: Đã được nhận nuôi)
-        /// </summary>
-        public int AdoptStateID {get; set; }
-        /// <summary>
-        /// Tên tình trạng nhận nuôi
-        /// </summary>
-        public string? AdoptStateName { get;}
-        /// <summary>
         /// id tình trạng sức khoẻ (1-tốt, 2-yếu, 3-Đang điều trị)
         /// </summary>
         public int HealthStateID { get; set; }
@@ -45,6 +37,15 @@ namespace PetHelper.Model
         /// Tên tình trạng sức khoẻ
         /// </summary>
         public string? HealthStateName { get; set;}
+
+        public string PetAvatar { get; set; }
+
+        /// <summary>
+        /// Ảnh thông tin của thú cưng, lưu dưới dạng base64
+        /// </summary>
+        public string Images { get; set; }
+
+        public string Description { get; set; }
 
     }
 }
