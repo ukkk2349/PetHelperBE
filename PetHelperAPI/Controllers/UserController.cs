@@ -26,8 +26,7 @@ namespace PetHelper.API.Controllers
             var res = new ServiceResponse();
             try
             {
-                res.Data = await (this._bl as IUserBL).SignIn(parameters.GetValueOrDefault("UserName"), parameters.GetValueOrDefault("Password"));
-                res.Success = true;
+                res = await (this._bl as IUserBL).SignIn(parameters.GetValueOrDefault("UserName"), parameters.GetValueOrDefault("Password"));
                 return res;
             }
             catch (Exception ex)

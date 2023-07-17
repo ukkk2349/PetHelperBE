@@ -13,6 +13,7 @@ namespace PetHelper.BL.Implements
     public class BaseBL : IBaseBL
     {
         private IBaseService _databaseService;
+        protected static int _userID;
 
         public BaseBL(IBaseService databaseService)
         {
@@ -83,7 +84,7 @@ namespace PetHelper.BL.Implements
 
         }
 
-        public async Task<List<T>> QueryUsingCommanTextAsync<T>(string commandText, Dictionary<string, object> dicParam) where T : BaseModel
+        public async Task<List<T>> QueryUsingCommanTextAsync<T>(string commandText, Dictionary<string, object> dicParam)
         {
             return await _databaseService.QueryUsingCommandText<T>(commandText, dicParam);
         }
