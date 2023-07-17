@@ -1,10 +1,11 @@
 ﻿using PetHelper.Model;
+using PetHelper.Model.Models;
 
 namespace PetHelper.BL.Interface
 {
     public interface IBaseBL
     {
-        public Task<object> Save(Type type, BaseModel entity);
+        public Task<ServiceResponse> Save(Type type, BaseModel entity);
 
         public List<T> GetAll<T>() where T : BaseModel;
 

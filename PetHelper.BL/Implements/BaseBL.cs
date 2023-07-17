@@ -7,6 +7,7 @@ using PetHelper.BL.Exceptions;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using System.Text;
+using PetHelper.Model.Models;
 
 namespace PetHelper.BL.Implements
 {
@@ -35,24 +36,30 @@ namespace PetHelper.BL.Implements
             return await _databaseService.GetByID(type, id);
         }
 
-        public async Task<object> Save(Type type, BaseModel entity)
+        public async Task<ServiceResponse> Save(Type type, BaseModel entity)
         {
             try
             {
+                var serviceResponse = new ServiceResponse();
+
                 var validateResults = await ValidateData(entity);
 
                 if (validateResults != null &&  validateResults.Count > 0)
                 {
-                    return validateResults;
+                    serviceResponse.ValidateResults = validateResults;
+                    serviceResponse.Success = false;
+                    return serviceResponse;
                 }
 
                 await this.BeforeSaveAsync(entity);
 
-                var res = await this.DoSaveAsync(type, entity);  
+                serviceResponse.Data = await this.DoSaveAsync(type, entity);  
 
                 await this.AfterSaveAsync(entity);
 
-                return res;
+                serviceResponse.Success = true;
+
+                return serviceResponse;
 
             }
             catch (Exception ex)
