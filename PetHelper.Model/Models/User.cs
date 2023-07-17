@@ -72,18 +72,18 @@ namespace PetHelper.Model
         /// </summary>
         public string? PhoneNumber { get; set; }
         
-        public Guid UserKey { get; set;}
+        public Guid? UserKey { get; set;}
         /// <summary>
         /// Ngày tham gia 
         /// </summary>
-        public DateTime JoinDate { get; set; }
+        public DateTime? JoinDate { get; set; }
         /// <summary>
         /// Có phải quản lý không
         /// </summary>
-        public bool IsManager { get; set; }
+        public bool? IsManager { get; set; }
         /// <summary>
         /// Có phải admin khônga
         /// </summary>
-        public bool IsAdmin { get; set; }
+        public bool? IsAdmin { get; set; }
     }
 }

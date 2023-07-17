@@ -85,7 +85,7 @@ namespace PetHelper.Core.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam) where T : BaseModel
+        public async Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam) 
         {
             using (mysqlConnection = new MySqlConnection(connectionString))
             {

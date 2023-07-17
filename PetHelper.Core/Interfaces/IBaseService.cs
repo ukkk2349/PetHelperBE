@@ -14,7 +14,7 @@ namespace PetHelper.Core.Interfaces
 
         public int Update(BaseModel entity);
 
-        public Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam) where T : BaseModel;
+        public Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam);
 
         public T GetByID<T>(int id) where T : BaseModel;
 

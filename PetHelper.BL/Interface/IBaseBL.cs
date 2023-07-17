@@ -14,6 +14,6 @@ namespace PetHelper.BL.Interface
 
         public Task<object> DeleteByID(Type type, int id);
 
-        public Task<List<T>> QueryUsingCommanTextAsync<T>(string commandText, Dictionary<string, object> dicParam) where T : BaseModel;
+        public Task<List<T>> QueryUsingCommanTextAsync<T>(string commandText, Dictionary<string, object> dicParam);
     }
 }

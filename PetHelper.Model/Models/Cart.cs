@@ -25,6 +25,8 @@ namespace PetHelper.Model.Models
         /// <summary>
         /// id người dùng
         /// </summary>
-        public int UserID { get; set; }
+        public int? UserID { get; set; }
+
+        public int Quantity { get; set; }
     }
 }
