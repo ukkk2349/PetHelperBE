@@ -18,6 +18,7 @@ builder.Services.AddScoped<IUserBL, UserBL>();
 builder.Services.AddScoped<IPetBL, PetBL>();
 builder.Services.AddScoped<IProductBL, ProductBL>();
 builder.Services.AddScoped<ICartBL, CartBL>();
+builder.Services.AddScoped<IAppointmentBL, AppointmentBL>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>

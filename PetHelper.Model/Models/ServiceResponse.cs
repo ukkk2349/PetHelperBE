@@ -5,5 +5,7 @@
         public object? Data { get; set; }
 
         public bool Success { get; set; }
+
+        public object ValidateResults { get; set; }
     }
 }

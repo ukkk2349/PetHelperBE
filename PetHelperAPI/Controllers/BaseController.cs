@@ -86,8 +86,7 @@ namespace PetHelper.API.Controllers
             var serviceResponse = new ServiceResponse();
             try
             {
-                serviceResponse.Data = await _bl.Save(this._modelType, (BaseModel)JsonConvert.DeserializeObject(entity.ToString(), this._modelType));
-                serviceResponse.Success = true;
+                serviceResponse = await _bl.Save(this._modelType, (BaseModel)JsonConvert.DeserializeObject(entity.ToString(), this._modelType));
                 return serviceResponse;
             }
             catch (Exception ex)
