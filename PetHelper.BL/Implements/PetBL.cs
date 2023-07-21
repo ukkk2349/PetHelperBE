@@ -26,6 +26,7 @@ namespace PetHelper.BL.Implements
                 System.IO.FileInfo file = new System.IO.FileInfo(avtUrl);
                 file.Directory.Create();
                 pet.PetAvatar = pet.PetAvatar.Replace("data:image/png;base64,", "");
+                pet.PetAvatar = pet.PetAvatar.Replace("data:image/jpeg;base64,", "");
                 await File.WriteAllBytesAsync(avtUrl, Convert.FromBase64String(pet.PetAvatar));
                 pet.PetAvatar = fileName + "_avatar.png";
             }

@@ -22,6 +22,24 @@ namespace PetHelper.BL.Implements
             }
         }
 
+        public async Task<ServiceResponse> GetCartItemOfUser()
+        {
+            var serviceResponse = new ServiceResponse();
+            var sql = "SELECT * FROM cart WHERE UserID = @UserID ORDER BY ModifiedDate DESC";
+            var dicParam = new Dictionary<string, object>();
+            dicParam.Add("@UserID", _userID);
+
+            var res = await QueryUsingCommanTextAsync<Cart>(sql, dicParam);
+
+            if (res != null) 
+            {
+                serviceResponse.Data = res;
+                serviceResponse.Success = true;
+            }
+
+            return serviceResponse;
+        }
+
         public async Task<int> GetTotalCartItem()
         {
             var sql = "SELECT COUNT(1) FROM cart WHERE UserID = @UserID";

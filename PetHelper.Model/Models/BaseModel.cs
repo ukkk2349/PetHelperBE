@@ -1,4 +1,6 @@
-﻿namespace PetHelper.Model
+﻿using PetHelper.Model.Enum;
+
+namespace PetHelper.Model
 {
     public partial class BaseModel : ICloneable
     {
@@ -10,6 +12,8 @@
 
         public Guid? ModifiedBy { get; set; }
 
+        public ModelState State { get; set; }
+
         public object Clone()
         {
             CreatedBy = null;
@@ -19,6 +23,8 @@
             ModifiedDate = DateTime.Now;
 
             CreatedDate = DateTime.Now;
+
+            State = ModelState.None;
 
             return this;
         }

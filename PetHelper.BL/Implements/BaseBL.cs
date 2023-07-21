@@ -15,6 +15,7 @@ namespace PetHelper.BL.Implements
     {
         private IBaseService _databaseService;
         protected static int _userID;
+        protected static string _fullName;
 
         public BaseBL(IBaseService databaseService)
         {
@@ -74,10 +75,21 @@ namespace PetHelper.BL.Implements
             return new List<ValidateException>();
         }
 
-        public async Task<int> DoSaveAsync(Type type, object entity)
+        public async Task<int> DoSaveAsync(Type type, BaseModel entity)
         {
             // Xử lý trước khi lưu dữ liệu
-            return await _databaseService.Save(type, entity);
+            if (entity.State == Model.Enum.ModelState.Insert)
+            {
+                return await _databaseService.Save(type, entity);
+            } 
+            else if (entity.State == Model.Enum.ModelState.Update)
+            {
+                return await this._databaseService.Update(entity);
+            } 
+            else
+            {
+                return await this._databaseService.Update(entity);
+            }
         }
 
         public virtual async Task BeforeSaveAsync(BaseModel entity)

@@ -1,5 +1,7 @@
 ﻿using PetHelper.BL.Interface;
 using PetHelper.Core.Interfaces;
+using PetHelper.Model;
+using PetHelper.Model.Models;
 
 namespace PetHelper.BL.Implements
 {
@@ -7,6 +9,19 @@ namespace PetHelper.BL.Implements
     {
         public AppointmentBL(IBaseService databaseService) : base(databaseService)
         {
+        }
+
+        public async override Task BeforeSaveAsync(BaseModel entity)
+        {
+            base.BeforeSaveAsync(entity);
+
+            var appointment = entity as Appointment;
+
+            if (appointment.State == Model.Enum.ModelState.Insert)
+            {
+                appointment.UserName = _fullName;
+                appointment.UserID = _userID;
+            }
         }
     }
 }

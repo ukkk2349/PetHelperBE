@@ -31,6 +31,7 @@ namespace PetHelper.BL.Implements
                 if (user != null && user.UserID != 0) 
                 {
                     _userID = user.UserID;
+                    _fullName = user.FullName;
                     serviceResponse.Success = true;
 
                     // Lấy số lượng giỏ hàng

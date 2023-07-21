@@ -8,11 +8,11 @@ namespace PetHelper.Core.Interfaces
 
         public Task<List<object>> GetAll(Type type);
 
-        public Task<int> Save(Type type, object entity);
+        public Task<int> Save(Type type, BaseModel entity);
 
         public int Delete(BaseModel entity);
 
-        public int Update(BaseModel entity);
+        public Task<int> Update(BaseModel entity);
 
         public Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam);
 
