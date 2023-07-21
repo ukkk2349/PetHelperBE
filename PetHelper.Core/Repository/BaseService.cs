@@ -62,7 +62,7 @@ namespace PetHelper.Core.Repository
             }
         }
 
-        public async Task<int> Save(Type type, object entity)
+        public async Task<int> Save(Type type, BaseModel entity)
         {
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
@@ -80,8 +80,16 @@ namespace PetHelper.Core.Repository
             throw new NotImplementedException();
         }
 
-        public int Update(BaseModel entity)
+        public async Task<int> Update(BaseModel entity)
         {
+            using (mysqlConnection = new MySqlConnection(connectionString))
+            {
+                var tableName = entity.GetType().Name; // ten cua bang du lieu
+                var objectInsert = ConvertToObjectToExecute(entity);
+                var sql = $"Proc_{tableName}_Update";
+                var res = await mysqlConnection.ExecuteAsync(sql: sql, param: objectInsert, commandType: System.Data.CommandType.StoredProcedure);
+                return res;
+            }
             throw new NotImplementedException();
         }
 
