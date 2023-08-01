@@ -37,6 +37,11 @@ namespace PetHelper.BL.Implements
             return await _databaseService.GetByID(type, id);
         }
 
+        public T GetByID<T>(int id) where T : BaseModel
+        {
+            return _databaseService.GetByID<T>(id);
+        }
+
         public async Task<ServiceResponse> Save(Type type, BaseModel entity)
         {
             try

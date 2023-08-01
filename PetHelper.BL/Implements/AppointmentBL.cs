@@ -1,4 +1,5 @@
-﻿using PetHelper.BL.Interface;
+﻿using Newtonsoft.Json;
+using PetHelper.BL.Interface;
 using PetHelper.Core.Interfaces;
 using PetHelper.Model;
 using PetHelper.Model.Models;
@@ -19,8 +20,10 @@ namespace PetHelper.BL.Implements
 
             if (appointment.State == Model.Enum.ModelState.Insert)
             {
+                var user = GetByID<User>(_userID);
                 appointment.UserName = _fullName;
                 appointment.UserID = _userID;
+                appointment.PhoneNumber = user.PhoneNumber;
             }
         }
     }

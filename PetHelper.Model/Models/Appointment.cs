@@ -32,6 +32,8 @@ namespace PetHelper.Model.Models
         /// </summary>
         public string UserName { get; set; } = string.Empty;
 
+        public string PhoneNumber { get; set; }
+
         /// <summary>
         /// Avatar người dùng
         /// </summary>

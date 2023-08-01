@@ -51,8 +51,8 @@ namespace PetHelper.Model.Models
         /// </summary>
         public string OrderStatusName { get; set;}
         /// <summary>
-        /// Ghi chú
+        /// Tổng tiền
         /// </summary>
-        public string Note { get; set; }
+        public int TotalMoney { get; set; }
     }
 }
