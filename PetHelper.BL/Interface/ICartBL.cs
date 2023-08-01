@@ -16,5 +16,11 @@ namespace PetHelper.BL.Interface
         /// </summary>
         /// <returns></returns>
         public Task<ServiceResponse> GetCartItemOfUser();
+        
+        /// <summary>
+        /// Đặt hàng
+        /// </summary>
+        /// <returns></returns>
+        public Task<bool> Order();
     }
 }

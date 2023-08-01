@@ -30,5 +30,27 @@ namespace PetHelper.API.Controllers
                 return res;
             }
         }
+
+        /// <summary>
+        /// Đặt hàng
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("order")]
+        public async Task<ServiceResponse> Order()
+        {
+            var res = new ServiceResponse();
+            try
+            {
+                res.Data = await (this._bl as ICartBL).Order();
+                res.Success = true;
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.Data = ex;
+                res.Success = false;
+                return res;
+            }
+        }
     }
 }
