@@ -37,9 +37,9 @@ namespace PetHelper.BL.Implements
             return await _databaseService.GetByID(type, id);
         }
 
-        public T GetByID<T>(int id) where T : BaseModel
+        public async Task<T> GetByID<T>(int id) where T : BaseModel
         {
-            return _databaseService.GetByID<T>(id);
+            return await _databaseService.GetByID<T>(id);
         }
 
         public async Task<ServiceResponse> Save(Type type, BaseModel entity)
@@ -111,6 +111,11 @@ namespace PetHelper.BL.Implements
         public async Task<List<T>> QueryUsingCommanTextAsync<T>(string commandText, Dictionary<string, object> dicParam)
         {
             return await _databaseService.QueryUsingCommandText<T>(commandText, dicParam);
+        }
+
+        public async Task<int> ExecuteUsingCommanTextAsync(string commandText, Dictionary<string, object> dicParam)
+        {
+            return await _databaseService.ExecuteUsingCommandText(commandText, dicParam);
         }
 
         public static string convertToUnSign(string s)

@@ -18,6 +18,7 @@ namespace PetHelper.Model.Models
         /// Số lượng sản phẩm
         /// </summary>
         public string ProductQuantities { get; set; }
+        public string ProductAvatars { get; set; }
         /// <summary>
         /// List sản phẩm (json (ProductID, productName, ProductAvatar, price, quantity))
         /// </summary>
