@@ -35,6 +35,7 @@ namespace PetHelper.BL.Implements
             var res = await QueryUsingCommanTextAsync<Cart>(existSQL, dicparam);
             if (res != null && res.Count > 0)
             {
+                cart.CartID = res.FirstOrDefault().CartID;
                 cart.Quantity = res.FirstOrDefault().Quantity + 1;
                 cart.State = Model.Enum.ModelState.Update;
             }
@@ -89,29 +90,31 @@ namespace PetHelper.BL.Implements
 
             if (carts != null && carts.Count > 0)
             {
-                var resUser = await GetByID(typeof(User), _userID);
+                var resUser = await GetByID<User>(_userID);
                 var user = resUser as User;
                 var order = new Order()
                 {
                     ProductIDs = string.Join(';', carts.Select(x => x.ProductID)),
                     ProductNames = string.Join(';', carts.Select(x => x.ProductName)),
+                    ProductAvatars = string.Join(';', carts.Select(x => x.ProductAvatar)),
                     ProductQuantities = string.Join(';', carts.Select(x => x.Quantity)),
                     UserID = _userID,
                     FullName = user.FullName,
                     PhoneNumber = user.PhoneNumber,
-                    Address = user.Address,
+                    Address = string.Join(", ", new string[] { user.Address, user.CurrentWardName, user.CurrentDistrictName, user.CurrentProvinceName }),
                     OrderDate = DateTime.Now,
                     OrderStatusID = 1,
                     OrderStatusName = "Đang xử lý",
-                    TotalMoney = (int)carts.Sum(x => x.Quantity * x.Price)
+                    TotalMoney = (int)carts.Sum(x => x.Quantity * x.Price),
+                    State = Model.Enum.ModelState.Insert
                 };
 
                 _ = _orderBL.Save(typeof(Order), order);
             }
 
-            var deleteSql = "DELETE FROM cart WHERE UserID = @userID";
+            var deleteSql = "DELETE FROM cart WHERE UserID = @UserID";
 
-            _ = await QueryUsingCommanTextAsync<Cart>(getSQL, dicParam);
+            _ = await ExecuteUsingCommanTextAsync(deleteSql, dicParam);
 
             return true;
 

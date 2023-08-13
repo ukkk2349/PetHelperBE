@@ -43,7 +43,7 @@ namespace PetHelper.Core.Repository
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
                 var tableName = typeof(T).Name; // ten cua bang du lieu
-                var sql = $"SELECT * FROM {tableName}";
+                var sql = $"SELECT * FROM `{tableName}`";
                 var data = mysqlConnection.Query<T>(sql);
 
                 return (List<T>)data;
@@ -55,7 +55,7 @@ namespace PetHelper.Core.Repository
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
                 var tableName = type.Name; // ten cua bang du lieu
-                var sql = $"SELECT * FROM {tableName}";
+                var sql = $"SELECT * FROM `{tableName}`";
                 var data = await mysqlConnection.QueryAsync(sql);
 
                 return (List<object>)data;
@@ -103,7 +103,17 @@ namespace PetHelper.Core.Repository
             }
         }
 
-        public T GetByID<T>(int id) where T : BaseModel
+        public async Task<int> ExecuteUsingCommandText(string commandText, Dictionary<string, object> dicParam)
+        {
+            using (mysqlConnection = new MySqlConnection(connectionString))
+            {
+                var data = await mysqlConnection.ExecuteAsync(commandText, dicParam);
+
+                return data;
+            }
+        }
+
+        public async Task<T> GetByID<T>(int id) where T : BaseModel
         {
             using (mysqlConnection = new MySqlConnection(connectionString))
             {
@@ -112,7 +122,7 @@ namespace PetHelper.Core.Repository
                 var sql = $"SELECT * from {tableName} WHERE {primaryKey} = @{primaryKey}";
                 var parameter = new DynamicParameters();
                 parameter.Add($"@{primaryKey}", id);
-                var data = mysqlConnection.QueryFirstOrDefault<T>(sql: sql, param: parameter);
+                var data = await mysqlConnection.QueryFirstOrDefaultAsync<T>(sql: sql, param: parameter);
 
                 return data;
             }

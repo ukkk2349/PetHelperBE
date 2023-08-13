@@ -16,7 +16,9 @@ namespace PetHelper.Core.Interfaces
 
         public Task<List<T>> QueryUsingCommandText<T>(string queryString, Dictionary<string, object> dicParam);
 
-        public T GetByID<T>(int id) where T : BaseModel;
+        public Task<int> ExecuteUsingCommandText(string commandText, Dictionary<string, object> dicParam);
+
+        public Task<T> GetByID<T>(int id) where T : BaseModel;
 
         public Task<dynamic> GetByID(Type type, int id);
 

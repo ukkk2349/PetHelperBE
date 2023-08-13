@@ -16,6 +16,10 @@ namespace PetHelper.BL.Implements
         public override async Task BeforeSaveAsync(BaseModel entity)
         {
             await base.BeforeSaveAsync(entity);
+            if (entity.State == Model.Enum.ModelState.Update)
+            {
+                return;
+            }
             var pet = entity as Pet;
 
             var fileName = convertToUnSign(pet.PetName);
